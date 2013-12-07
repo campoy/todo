@@ -39,7 +39,7 @@ func TestSaveTaskAndRetrieve(t *testing.T) {
 		t.Errorf("expected 1 task, got %v", len(all))
 	}
 	if *all[0] != *task {
-		t.Errorf("expected %v, got %v", task, all)
+		t.Errorf("expected %v, got %v", task, all[0])
 	}
 }
 
@@ -58,7 +58,7 @@ func TestSaveAndRetrieveTwoTasks(t *testing.T) {
 	if *all[0] != *learnGo && *all[1] != *learnGo {
 		t.Errorf("missing task: %v", learnGo)
 	}
-	if *all[0] != *learnTDD && *all[2] != *learnTDD {
+	if *all[0] != *learnTDD && *all[1] != *learnTDD {
 		t.Errorf("missing task: %v", learnTDD)
 	}
 }

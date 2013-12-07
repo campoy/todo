@@ -69,9 +69,23 @@ func TestSaveModifyAndRetrieve(t *testing.T) {
 	m.Save(task)
 
 	task.Done = true
-
-	all := m.All()
-	if all[0].Done {
+	if m.All()[0].Done {
 		t.Errorf("saved task wasn't done")
 	}
+}
+
+func TestSaveTwiceAndRetrieve(t *testing.T) {
+	task := newTaskOrFatal(t, "learn Go")
+	m := NewTaskManager()
+	m.Save(task)
+	m.Save(task)
+
+	all := m.All()
+	if len(all) != 1 {
+		t.Errorf("expected 1 task, got %v", len(all))
+	}
+	if *all[0] != *task {
+		t.Errorf("expected task %v, got %v", task, all[0])
+	}
+
 }

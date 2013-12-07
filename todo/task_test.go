@@ -22,3 +22,21 @@ func TestNewTaskEmptyTitle(t *testing.T) {
 		t.Errorf("task with empty title created")
 	}
 }
+
+func TestSaveTaskAndRetrieve(t *testing.T) {
+	task, err := NewTask("learn Go")
+	if err != nil {
+		t.Errorf("new task: %v", err)
+	}
+
+	m := NewTaskManager()
+	m.Save(task)
+
+	all := m.All()
+	if len(all) != 1 {
+		t.Errorf("expected 1 task, got %v", len(all))
+	}
+	if *all[0] != *task {
+		t.Errorf("expected %v, got %v", task, all)
+	}
+}

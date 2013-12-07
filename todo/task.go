@@ -23,7 +23,8 @@ func NewTaskManager() *TaskManager {
 }
 
 func (m *TaskManager) Save(task *Task) {
-	m.tasks = append(m.tasks, task)
+	copy := *task
+	m.tasks = append(m.tasks, &copy)
 }
 
 func (m *TaskManager) All() []*Task {

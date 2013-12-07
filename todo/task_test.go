@@ -61,5 +61,17 @@ func TestSaveAndRetrieveTwoTasks(t *testing.T) {
 	if *all[0] != *learnTDD && *all[2] != *learnTDD {
 		t.Errorf("missing task: %v", learnTDD)
 	}
+}
 
+func TestSaveModifyAndRetrieve(t *testing.T) {
+	task := newTaskOrFatal(t, "learn Go")
+	m := NewTaskManager()
+	m.Save(task)
+
+	task.Done = true
+
+	all := m.All()
+	if all[0].Done {
+		t.Errorf("saved task wasn't done")
+	}
 }

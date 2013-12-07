@@ -2,12 +2,17 @@ package todo
 
 import "testing"
 
+func newTaskOrFatal(t *testing.T, title string) *Task {
+	task, err := NewTask("learn Go")
+	if err != nil {
+		t.Fatalf("new task: %v", err)
+	}
+	return task
+}
+
 func TestNewTask(t *testing.T) {
 	title := "learn Go"
-	task, err := NewTask(title)
-	if err != nil {
-		t.Errorf("new task: %v", err)
-	}
+	task := newTaskOrFatal(t, title)
 	if task.Title != title {
 		t.Errorf("expected title %q, got %q", title, task.Title)
 	}
@@ -24,10 +29,7 @@ func TestNewTaskEmptyTitle(t *testing.T) {
 }
 
 func TestSaveTaskAndRetrieve(t *testing.T) {
-	task, err := NewTask("learn Go")
-	if err != nil {
-		t.Errorf("new task: %v", err)
-	}
+	task := newTaskOrFatal(t, "learn Go")
 
 	m := NewTaskManager()
 	m.Save(task)
@@ -39,4 +41,25 @@ func TestSaveTaskAndRetrieve(t *testing.T) {
 	if *all[0] != *task {
 		t.Errorf("expected %v, got %v", task, all)
 	}
+}
+
+func TestSaveAndRetrieveTwoTasks(t *testing.T) {
+	learnGo := newTaskOrFatal(t, "learn Go")
+	learnTDD := newTaskOrFatal(t, "learn TDD")
+
+	m := NewTaskManager()
+	m.Save(learnGo)
+	m.Save(learnTDD)
+
+	all := m.All()
+	if len(all) != 2 {
+		t.Errorf("expected 2 tasks, got %v", len(all))
+	}
+	if *all[0] != *learnGo && *all[1] != *learnGo {
+		t.Errorf("missing task: %v", learnGo)
+	}
+	if *all[0] != *learnTDD && *all[2] != *learnTDD {
+		t.Errorf("missing task: %v", learnTDD)
+	}
+
 }

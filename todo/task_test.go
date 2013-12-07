@@ -8,4 +8,7 @@ func TestNewTask(t *testing.T) {
 	if task.Title != title {
 		t.Errorf("expected title %q, got %q", title, task.Title)
 	}
+	if task.Done {
+		t.Errorf("new task is done")
+	}
 }

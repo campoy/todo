@@ -3,7 +3,7 @@ package todo
 import "fmt"
 
 type Task struct {
-	id    int64
+	ID    int64
 	Title string
 	Done  bool
 }
@@ -25,15 +25,15 @@ func NewTaskManager() *TaskManager {
 }
 
 func (m *TaskManager) Save(task *Task) error {
-	if task.id == 0 {
+	if task.ID == 0 {
 		m.lastID++
-		task.id = m.lastID
+		task.ID = m.lastID
 		m.tasks = append(m.tasks, cloneTask(task))
 		return nil
 	}
 
 	for i, t := range m.tasks {
-		if t.id == task.id {
+		if t.ID == task.ID {
 			m.tasks[i] = cloneTask(task)
 			return nil
 		}
@@ -48,4 +48,13 @@ func cloneTask(t *Task) *Task {
 
 func (m *TaskManager) All() []*Task {
 	return m.tasks
+}
+
+func (m *TaskManager) Find(ID int64) (*Task, bool) {
+	for _, t := range m.tasks {
+		if t.ID == ID {
+			return t, true
+		}
+	}
+	return nil, false
 }

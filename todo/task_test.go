@@ -87,5 +87,18 @@ func TestSaveTwiceAndRetrieve(t *testing.T) {
 	if *all[0] != *task {
 		t.Errorf("expected task %v, got %v", task, all[0])
 	}
+}
 
+func TestSaveAndFind(t *testing.T) {
+	task := newTaskOrFatal(t, "learn Go")
+	m := NewTaskManager()
+	m.Save(task)
+
+	nt, ok := m.Find(task.ID)
+	if !ok {
+		t.Errorf("dIDn't find task")
+	}
+	if *task != *nt {
+		t.Errorf("expected %v, got %v", task, nt)
+	}
 }

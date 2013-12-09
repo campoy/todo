@@ -6,32 +6,35 @@
 
 function TaskCtrl($scope, $http) {
   $scope.tasks = [];
-  $scope.working = true;
+  $scope.working = false;
 
   var logError = function(data, status) {
     console.log('code '+status+': '+data);
+    $scope.working = false;
   };
 
   var refresh = function() {
-    $http.get('/task/').
+    return $http.get('/task/').
       success(function(data) { $scope.tasks = data.Tasks; }).
-      error(logError).
-      then(function() { $scope.working = false; });
+      error(logError);
   };
 
   $scope.addTodo = function() {
     $scope.working = true;
     $http.post('/task/', {Title: $scope.todoText}).
-      success(refresh).error(logError).
-      then(function() { $scope.todoText = ''; });
+      error(logError).
+      success(function() {
+        refresh().then(function() {
+          $scope.working = false;
+          $scope.todoText = '';
+        })
+      });
   };
 
   $scope.toggleDone = function(task) {
-    $scope.working = true;
     task.Done = !task.Done
-    $http.put('/task/'+task.ID, task).
-      success(refresh).error(logError);
+    $http.put('/task/'+task.ID, task).error(logError);
   };
 
-  refresh();
+  refresh().then(function() { $scope.working = false; });
 }

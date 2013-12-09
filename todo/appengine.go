@@ -7,12 +7,8 @@
 // A Google App Engine application providing a web UI for task management.
 package todo
 
-import (
-	"net/http"
-
-	"github.com/campoy/todo/server"
-)
+import "github.com/campoy/todo/server"
 
 func init() {
-	http.Handle("/task/", server.Handler())
+	server.RegisterHandlers()
 }

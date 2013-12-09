@@ -25,20 +25,28 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func Handler() http.Handler {
-	r := mux.NewRouter()
-	r.HandleFunc("/task/", errorHandler(ListTasks)).Methods("GET")
-	r.HandleFunc("/task/", errorHandler(NewTask)).Methods("POST")
-	r.HandleFunc("/task/{id}", errorHandler(GetTask)).Methods("GET")
-	r.HandleFunc("/task/{id}", errorHandler(UpdateTask)).Methods("PUT")
-	return r
-}
-
 var tasks = task.NewTaskManager()
 
+const PathPrefix = "/task/"
+
+func RegisterHandlers() {
+	r := mux.NewRouter()
+	r.HandleFunc(PathPrefix, errorHandler(ListTasks)).Methods("GET")
+	r.HandleFunc(PathPrefix, errorHandler(NewTask)).Methods("POST")
+	r.HandleFunc(PathPrefix+"{id}", errorHandler(GetTask)).Methods("GET")
+	r.HandleFunc(PathPrefix+"{id}", errorHandler(UpdateTask)).Methods("PUT")
+	http.Handle(PathPrefix, r)
+}
+
+// badRequest is handled by setting the status code in the reply to StatusBadRequest.
 type badRequest struct{ error }
+
+// notFound is handled by setting the status code in the reply to StatusNotFound.
 type notFound struct{ error }
 
+// errorHandler wraps a function returning an error by handling the error and returning a http.Handler.
+// If the error is of the one of the types defined above, it is handled as described for every type.
+// If the error is of another type, it is considered as an internal error and its message is logged.
 func errorHandler(f func(w http.ResponseWriter, r *http.Request) error) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		err := f(w, r)
@@ -62,7 +70,7 @@ func errorHandler(f func(w http.ResponseWriter, r *http.Request) error) http.Han
 //
 // Example:
 //
-//   req: GET /task
+//   req: GET /task/
 //   res: 200 {"Tasks": [
 //          {"ID": 1, "Title": "Learn Go", "Done": false},
 //          {"ID": 2, "Title": "Buy bread", "Done": true}
@@ -78,10 +86,10 @@ func ListTasks(w http.ResponseWriter, r *http.Request) error {
 //
 // Examples:
 //
-//   req: POST /task {"Title": ""}
+//   req: POST /task/ {"Title": ""}
 //   res: 400 empty title
 //
-//   req: POST /task {"Title": "Buy bread"}
+//   req: POST /task/ {"Title": "Buy bread"}
 //   res: 200
 func NewTask(w http.ResponseWriter, r *http.Request) error {
 	req := struct{ Title string }{}

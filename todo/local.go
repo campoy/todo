@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	http.Handle("/task/", server.Handler())
+	server.RegisterHandlers()
 	http.Handle("/", http.FileServer(http.Dir("static")))
 	http.ListenAndServe(":8080", nil)
 }

@@ -1,4 +1,18 @@
-package main
+// Copyright 2011 The Go Authors.  All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// This package implements a simple HTTP server providing a REST API to a task handler.
+//
+// It provides four methods:
+//
+// 	GET    /task/          Retrieves all the tasks.
+// 	POST   /task/          Creates a new task given a title.
+// 	GET    /task/{taskID}  Retrieves the task with the given id.
+// 	PUT    /task/{taskID}  Updates the task with the given id.
+//
+// Every method below gives more information about every API call, its parameters, and its results.
+package server
 
 import (
 	"encoding/json"
@@ -7,22 +21,20 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/campoy/todo/todo"
+	"github.com/campoy/todo/task"
 	"github.com/gorilla/mux"
 )
 
-func main() {
+func Handler() http.Handler {
 	r := mux.NewRouter()
 	r.HandleFunc("/task/", errorHandler(ListTasks)).Methods("GET")
 	r.HandleFunc("/task/", errorHandler(NewTask)).Methods("POST")
 	r.HandleFunc("/task/{id}", errorHandler(GetTask)).Methods("GET")
 	r.HandleFunc("/task/{id}", errorHandler(UpdateTask)).Methods("PUT")
-	http.Handle("/task/", r)
-	http.Handle("/", http.FileServer(http.Dir("static")))
-	http.ListenAndServe(":8080", nil)
+	return r
 }
 
-var tasks = todo.NewTaskManager()
+var tasks = task.NewTaskManager()
 
 type badRequest struct{ error }
 type notFound struct{ error }
@@ -56,7 +68,7 @@ func errorHandler(f func(w http.ResponseWriter, r *http.Request) error) http.Han
 //          {"ID": 2, "Title": "Buy bread", "Done": true}
 //        ]}
 func ListTasks(w http.ResponseWriter, r *http.Request) error {
-	res := struct{ Tasks []*todo.Task }{tasks.All()}
+	res := struct{ Tasks []*task.Task }{tasks.All()}
 	return json.NewEncoder(w).Encode(res)
 }
 
@@ -76,7 +88,7 @@ func NewTask(w http.ResponseWriter, r *http.Request) error {
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		return badRequest{err}
 	}
-	t, err := todo.NewTask(req.Title)
+	t, err := task.NewTask(req.Title)
 	if err != nil {
 		return badRequest{err}
 	}
@@ -133,7 +145,7 @@ func UpdateTask(w http.ResponseWriter, r *http.Request) error {
 	if err != nil {
 		return badRequest{err}
 	}
-	var t todo.Task
+	var t task.Task
 	if err := json.NewDecoder(r.Body).Decode(&t); err != nil {
 		return badRequest{err}
 	}

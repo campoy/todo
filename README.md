@@ -1,4 +1,8 @@
-todo
-====
+ToDo
+========
 
-A task manager written in Go using TDD techniques, each commit should represent a step in the application development.
+Go Do It provides a simple task management application.
+
+The purpose of this project is to show how some general techniques can be applied to Go code.
+
+

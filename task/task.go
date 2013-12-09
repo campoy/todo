@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+// The package provides a TaskManager implemented using TDD techniques.
+// The tests were developed before the code was written.
 package task
 
 import "fmt"

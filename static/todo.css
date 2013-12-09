@@ -66,3 +66,15 @@ li.done > .checkbox {
 	color: #fff;
 	background: #444;
 }
+
+.spinner {
+	width: 15px;
+	height: 15px;
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	display: none;
+}
+.spinner.working {
+	display: block;
+}

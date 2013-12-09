@@ -3,7 +3,7 @@ body {
 	width: 80%;
 	max-width: 480px;
 	margin: 0 auto;
-	background: #fbfbfb;
+	background: #f8f8f8;
 }
 
 body, input, button {
@@ -16,6 +16,7 @@ h1 {
 	text-align: center;
 	font-size: 3em;
 	font-weight: 200;
+	height: 70px;
 }
 
 h2 {

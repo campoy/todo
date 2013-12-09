@@ -11,4 +11,7 @@ handlers:
 - url: /task/.*
   script: _go_app
 - url: /
+  static_files: static/index.html
+  upload: static/index.html
+- url: /
   static_dir: static

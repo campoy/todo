@@ -1,0 +1,33 @@
+<!doctype html>
+<html ng-app>
+
+<head>
+  <title>TODO</title>
+  <!-- AngularJS -->
+  <script src='/lib/angular.min.js'></script>
+
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+  <script src='todo.js'></script>
+  <link rel='stylesheet' href='todo.css'>
+</head>
+
+<body>
+<div class='container' ng-controller='TaskCtrl'>
+  <h1 class='charcoal rounded-box'>ToDo</h1>
+
+  <h2>Tasks</h2>
+
+  <ul class='grey rounded-box'>
+    <li ng-repeat='t in tasks' ng-class='{done: t.Done}' ng-click='toggleDone(t)'>
+      <span class='checkbox'></span>{{t.Title}}
+    </li>
+  </ul>
+
+  <form>
+    <input type='text' class='rounded-box' placeholder='add new todo here' ng-model='todoText'>
+    <button class='grey rounded-box' ng-click='addTodo()'>New Task</button>
+  </form>
+</div>
+
+</body>
+</html>

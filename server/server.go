@@ -13,11 +13,13 @@ import (
 
 func main() {
 	r := mux.NewRouter()
-	r.HandleFunc("/task", errorHandler(ListTasks)).Methods("GET")
-	r.HandleFunc("/task", errorHandler(NewTask)).Methods("POST")
+	r.HandleFunc("/task/", errorHandler(ListTasks)).Methods("GET")
+	r.HandleFunc("/task/", errorHandler(NewTask)).Methods("POST")
 	r.HandleFunc("/task/{id}", errorHandler(GetTask)).Methods("GET")
 	r.HandleFunc("/task/{id}", errorHandler(UpdateTask)).Methods("PUT")
-	http.ListenAndServe(":8080", r)
+	http.Handle("/task/", r)
+	http.Handle("/", http.FileServer(http.Dir("static")))
+	http.ListenAndServe(":8080", nil)
 }
 
 var tasks = todo.NewTaskManager()
@@ -103,10 +105,13 @@ func parseID(r *http.Request) (int64, error) {
 //   res: 404 task not found
 func GetTask(w http.ResponseWriter, r *http.Request) error {
 	id, err := parseID(r)
+	log.Println("Task is ", id)
 	if err != nil {
 		return badRequest{err}
 	}
 	t, ok := tasks.Find(id)
+	log.Println("Found", ok)
+
 	if !ok {
 		return notFound{}
 	}
@@ -135,7 +140,7 @@ func UpdateTask(w http.ResponseWriter, r *http.Request) error {
 	if t.ID != id {
 		return badRequest{fmt.Errorf("inconsistent task IDs")}
 	}
-	if _, ok := tasks.Find(t.ID); !ok {
+	if _, ok := tasks.Find(id); !ok {
 		return notFound{}
 	}
 	return tasks.Save(&t)

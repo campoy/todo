@@ -4,6 +4,7 @@
 
 // +build appengine
 
+// A Google App Engine application providing a web UI for task management.
 package todo
 
 import (

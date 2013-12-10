@@ -1,4 +1,5 @@
-Go, TDD, REST and AngularJS
+Writing a modern web app
+with Go, TDD, REST, and AngularJS
 
 Francesc Campoy
 Gopher at Google MTV
@@ -25,6 +26,15 @@ And all the code is available on
 .link http://github.com/campoy/todo
 
 * Live coding, live testing
+
+* Test Driven Development
+
+.image redgreenrefactor.png 300 375
+
+1. Write a unit test
+2. Run it and watch it fail
+3. Write just enough production code to make the test pass
+4. Re-run the test and watch it pass
 
 * import "testing"
 
@@ -54,16 +64,13 @@ Running all your tests while coding.
 	2013-12-09 16:19:20.181669437 -0800 PST
 	...
 
-* Test Driven Development
-
-.image redgreenrefactor.png 300 375
-
-1. Write a unit test
-2. Run it and watch it fail
-3. Write just enough production code to make the test pass
-4. Re-run the test and watch it pass
-
 * Live coding!
+
+* After some test writing and passing
+
+We would end up with a package with a *nice* API
+
+.link http://godoc.org/github.com/campoy/todo/task
 
 * REST = HTTP + JSON
 
@@ -73,7 +80,21 @@ Go provides an excellent `net/http` package
 
 And a convenient JSON package
 
-.code rest.go /var req/,/^$/
+.code rest.go /req :=/,/^$/
+
+* REST = HTTP + JSON
+
+.play rest.go /func main/,
+
+* REST = HTTP + JSON
+
+GET is not allowed
+
+.link http://localhost:8080/
+
+But POST works
+
+.play post.sh
 
 * REST API for TaskManager
 

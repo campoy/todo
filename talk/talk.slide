@@ -1,0 +1,135 @@
+Go, TDD, REST and AngularJS
+
+Francesc Campoy
+Gopher at Google MTV
+@francesc
+
+* Agenda
+
+- Some live coding.
+
+- Building a REST API.
+
+- Offering it on a stand-alone http server and App Engine.
+
+- Building a web UI using the API.
+
+* TODO
+
+We're going to build:
+
+.link http://campoy.cat/todo
+
+And all the code is available on
+
+.link http://github.com/campoy/todo
+
+* Live coding, live testing
+
+* import "testing"
+
+Go's standard library offers a testing framework
+
+.code ../task/task_test.go /TestNewTaskEmptyTitle/,/^}/
+
+Running all the tests for a package
+
+	$ go test github.com/campoy/todo/...
+	?   	github.com/campoy/todo/server	[no test files]
+	ok  	github.com/campoy/todo/task	0.011s
+	?   	github.com/campoy/todo/todo	[no test files]
+
+* Live testing
+
+Running all your tests while coding.
+
+	$ go get github.com/eaburns/Watch
+
+	$ cd $GOPATH/src/github.com/campoy/todo/task
+
+	$ Watch -t go test
+	go test
+	PASS
+	ok  	github.com/campoy/todo/task	0.017s
+	2013-12-09 16:19:20.181669437 -0800 PST
+	...
+
+* Test Driven Design
+
+.image redgreenrefactor.png 300 375
+
+1. Write a unit test
+2. Run it and watch it fail
+3. Write just enough production code to make the test pass
+4. Re-run the test and watch it pass
+
+* Live coding!
+
+* REST = HTTP + JSON
+
+Go provides an excellent `net/http` package
+
+.code rest.go /func main/,/func addHandler/
+
+And a very easy to use JSON package
+
+.code rest.go /var req/,/^$/
+
+* REST API for TaskManager
+
+Methods that we offer, easy to express using `github.com/gorilla/mux`
+
+.code ../server/server.go /PathPrefix/
+
+.code ../server/server.go /RegisterHandlers/,/^}/
+
+Listing all the tasks
+
+.code ../server/server.go /func ListTasks/,/^}/
+
+* REST API for TaskManager (continued)
+
+Creating a new task
+
+.code ../server/server.go /func NewTask/,/^}/
+
+* Building a web client
+
+* What we build
+
+.image screenshot.png
+
+* Consuming REST API with AngularJS
+
+Getting all the tasks
+
+	$http.get('/task/').
+		success(function(data) { $scope.tasks = data.Tasks; }).
+		error(logError);
+
+Marking a task as done
+
+	data = {ID: task.ID, Title: task.Title, Done: !task.Done}
+	$http.put('/task/'+task.ID, data).
+		error(logError).
+		success(function() { task.Done = !task.Done });
+
+* Serving it
+
+Running a stand-alone server
+
+.code ../todo/local.go /main/,
+
+* What's next?
+
+- Go homepage
+
+.link http://golang.org
+
+- Learn Go from your browser
+
+.link http://tour.golang.org
+
+- Check the code
+
+.link http://github.com/campoy/todo

@@ -10,7 +10,7 @@ Gopher at Google MTV
 
 - Building a REST API.
 
-- Offering it on a stand-alone http server and App Engine.
+- Deploying it on a stand-alone http server and App Engine.
 
 - Building a web UI using the API.
 
@@ -32,7 +32,7 @@ Go's standard library offers a testing framework
 
 .code ../task/task_test.go /TestNewTaskEmptyTitle/,/^}/
 
-Running all the tests for a package
+Running all the tests for a project
 
 	$ go test github.com/campoy/todo/...
 	?   	github.com/campoy/todo/server	[no test files]
@@ -54,7 +54,7 @@ Running all your tests while coding.
 	2013-12-09 16:19:20.181669437 -0800 PST
 	...
 
-* Test Driven Design
+* Test Driven Development
 
 .image redgreenrefactor.png 300 375
 
@@ -71,7 +71,7 @@ Go provides an excellent `net/http` package
 
 .code rest.go /func main/,/func addHandler/
 
-And a very easy to use JSON package
+And a convenient JSON package
 
 .code rest.go /var req/,/^$/
 
@@ -95,7 +95,7 @@ Creating a new task
 
 * Building a web client
 
-* What we build
+* What we will build
 
 .image screenshot.png
 
@@ -107,18 +107,32 @@ Getting all the tasks
 		success(function(data) { $scope.tasks = data.Tasks; }).
 		error(logError);
 
-Marking a task as done
+Toggling a task's Done state
 
 	data = {ID: task.ID, Title: task.Title, Done: !task.Done}
 	$http.put('/task/'+task.ID, data).
 		error(logError).
 		success(function() { task.Done = !task.Done });
 
-* Serving it
+* Deploying it
 
 Running a stand-alone server
 
 .code ../todo/local.go /main/,
+
+* Deploying it on App Engine
+
+The Go code
+
+.code ../todo/appengine.go /package/,
+
+* Deploying it on App Engine (continued)
+
+The app.yaml configuration file
+
+.code ../app.yaml /application/,
+
+In-memory storage is *not* persistent on App Engine!
 
 * What's next?
 

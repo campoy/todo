@@ -28,7 +28,7 @@ func TestNewTask(t *testing.T) {
 func TestNewTaskEmptyTitle(t *testing.T) {
 	_, err := NewTask("")
 	if err == nil {
-		t.Errorf("task with empty title created")
+		t.Errorf("expected 'empty title' error, got nil")
 	}
 }
 

@@ -100,7 +100,7 @@ func TestSaveAndFind(t *testing.T) {
 
 	nt, ok := m.Find(task.ID)
 	if !ok {
-		t.Errorf("dIDn't find task")
+		t.Errorf("didn't find task")
 	}
 	if *task != *nt {
 		t.Errorf("expected %v, got %v", task, nt)

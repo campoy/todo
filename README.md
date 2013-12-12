@@ -3,7 +3,7 @@ ToDo
 
 This application has been written for a talk on Go, TDD, and REST APIs.
 
-The slides for the talk can be seeen [here](http://go-talks.appspot.com/github.com/campoy/todo/talk/talk.slide).
+The slides for the talk can be seen [here](http://go-talks.appspot.com/github.com/campoy/todo/talk/talk.slide).
 
 TODO provides a simple task management application.
 

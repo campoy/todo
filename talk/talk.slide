@@ -72,6 +72,8 @@ We would end up with a package with a *nice* API
 
 .link http://godoc.org/github.com/campoy/todo/task
 
+* REST API
+
 * REST = HTTP + JSON
 
 Go provides an excellent `net/http` package

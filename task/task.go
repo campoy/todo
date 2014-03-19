@@ -8,8 +8,6 @@ package task
 
 import "fmt"
 
-// A Task represents a task to be accomplished.
-// IDs are set only for Tasks that are saved by a TaskManager.
 type Task struct {
 	ID    int64  // Unique identifier
 	Title string // Description

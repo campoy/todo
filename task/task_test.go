@@ -7,7 +7,7 @@ package task
 import "testing"
 
 func newTaskOrFatal(t *testing.T, title string) *Task {
-	task, err := NewTask("learn Go")
+	task, err := NewTask(title)
 	if err != nil {
 		t.Fatalf("new task: %v", err)
 	}

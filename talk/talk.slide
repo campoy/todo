@@ -151,9 +151,9 @@ The Go code
 
 * Deploying it on App Engine (continued)
 
-The app.yaml configuration file
+The `app.yaml` configuration file
 
-.code ../app.yaml /application/,
+.code ../todo/app.yaml /application/,
 
 In-memory storage is *not* persistent on App Engine!
 

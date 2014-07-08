@@ -26,4 +26,4 @@ lost if the application is restarted.
 ##### Consuming a REST API with AngularJS
 
 With a minimum of HTML, CSS, and AngularJS we create a UI for the REST API.
-The code is in the `server/static` directory.
+The code is in the `todo/static` directory.

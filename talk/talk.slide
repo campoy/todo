@@ -82,25 +82,41 @@ We would end up with a package with a *nice* API
 
 Go provides an excellent `net/http` package
 
-.code rest.go /func main/,/func addHandler/
+.code simple.go /func main/,/^}/
 
 And a convenient JSON package
 
-.code rest.go /req :=/,/^$/
+.code simple.go /func handler/,/^}/
 
-* REST = HTTP + JSON
+* Addition as a Service
 
-.play rest.go /func main/,
+The addition web service accepts an `AddRequest`:
 
-* REST = HTTP + JSON
+.code rest.go /AddRequest/,/^}/
 
-GET is not allowed
+And returns an `AddResponse`
 
-.link http://localhost:8080/
+.code rest.go /AddResponse/,/^}/
 
-But POST works
+* Addition as a Service
 
-.play post.sh
+The complete HTTP handler.
+
+.code rest.go /func addHandler/,/^}/
+
+* Addition as a Service
+
+The client side code is pretty much the inverse of the handler.
+
+.code rest.go /func add\(/,/^}/
+
+* Addition as a Service
+
+Let's run the server in the background and send some requests.
+
+.play rest.go /func main/,/^}/
+
+* TaskManager
 
 * REST API for TaskManager
 

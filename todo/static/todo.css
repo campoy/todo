@@ -39,6 +39,8 @@ li {
 }
 li.done {
 	color: #888;
+}
+li.done .task-title {
 	text-decoration: line-through;
 }
 
@@ -53,6 +55,13 @@ li > .checkbox {
 }
 li.done > .checkbox {
 	background: #888;	
+}
+
+.task-date-done {
+	text-decoration: none;
+	font-size: 10px;
+	padding-left: 20px;
+	color: #333;
 }
 
 .rounded-box {

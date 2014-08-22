@@ -24,7 +24,7 @@
 
   <ul class='grey rounded-box'>
     <li ng-repeat='t in tasks' ng-class='{done: t.Done}' ng-click='toggleDone(t)'>
-      <span class='checkbox'></span>{{t.Title}}
+      <span class='checkbox'></span><span class='task-title'>{{t.Title}}</span><span ng-show='t.DateDone!=""' class='task-date-done'>Done on {{t.DateDone}}</span>
     </li>
   </ul>
 

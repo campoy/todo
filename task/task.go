@@ -6,12 +6,16 @@
 // The tests were developed before the code was written.
 package task
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 type Task struct {
 	ID    int64  // Unique identifier
 	Title string // Description
 	Done  bool   // Is this task done?
+	DateDone string // When was this task done?
 }
 
 // NewTask creates a new task given a title, that can't be empty.
@@ -19,7 +23,7 @@ func NewTask(title string) (*Task, error) {
 	if title == "" {
 		return nil, fmt.Errorf("empty title")
 	}
-	return &Task{0, title, false}, nil
+	return &Task{0, title, false, ""}, nil
 }
 
 // TaskManager manages a list of tasks in memory.
@@ -44,6 +48,11 @@ func (m *TaskManager) Save(task *Task) error {
 
 	for i, t := range m.tasks {
 		if t.ID == task.ID {
+			if task.Done {
+				task.DateDone = time.Now().Format("2006-01-02 15:04:05 -0700 MST")
+			} else {
+				task.DateDone = ""
+			}
 			m.tasks[i] = cloneTask(task)
 			return nil
 		}

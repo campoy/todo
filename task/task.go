@@ -15,7 +15,10 @@
 // The tests were developed before the code was written.
 package task
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+)
 
 type Task struct {
 	ID    int64  // Unique identifier
@@ -33,6 +36,7 @@ func NewTask(title string) (*Task, error) {
 
 // TaskManager manages a list of tasks in memory.
 type TaskManager struct {
+	sync.RWMutex
 	tasks  []*Task
 	lastID int64
 }
@@ -44,6 +48,8 @@ func NewTaskManager() *TaskManager {
 
 // Save saves the given Task in the TaskManager.
 func (m *TaskManager) Save(task *Task) error {
+	m.Lock()
+	defer m.Unlock()
 	if task.ID == 0 {
 		m.lastID++
 		task.ID = m.lastID
@@ -68,12 +74,18 @@ func cloneTask(t *Task) *Task {
 
 // All returns the list of all the Tasks in the TaskManager.
 func (m *TaskManager) All() []*Task {
-	return m.tasks
+	m.RLock()
+	defer m.RUnlock()
+	out := make([]*Task, len(m.tasks))
+	copy(out, m.tasks)
+	return out
 }
 
 // Find returns the Task with the given id in the TaskManager and a boolean
 // indicating if the id was found.
 func (m *TaskManager) Find(ID int64) (*Task, bool) {
+	m.RLock()
+	defer m.RUnlock()
 	for _, t := range m.tasks {
 		if t.ID == ID {
 			return t, true

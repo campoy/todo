@@ -155,7 +155,7 @@ func GetTask(w http.ResponseWriter, r *http.Request) error {
 //   req: PUT /task/1 {"ID": 1, "Title": "Learn Go", "Done": true}
 //   res: 200
 //
-//   req: PUT /task/2 {"ID": 2, "Title": "Learn Go", "Done": true}
+//   req: PUT /task/1 {"ID": 2, "Title": "Learn Go", "Done": true}
 //   res: 400 inconsistent task IDs
 func UpdateTask(w http.ResponseWriter, r *http.Request) error {
 	id, err := parseID(r)
